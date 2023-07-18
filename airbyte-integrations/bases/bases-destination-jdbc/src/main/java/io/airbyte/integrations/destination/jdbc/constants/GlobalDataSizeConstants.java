@@ -10,6 +10,7 @@ import io.aesy.datasize.DataSize;
 public interface GlobalDataSizeConstants {
 
   /** 25 MB to BYTES as comparison will be done in BYTES */
+  // JY: changed 25MB to 10MB
   int DEFAULT_MAX_BATCH_SIZE_BYTES = DataSize.of(25L, IEC.MEBIBYTE).toUnit(IEC.BYTE).getValue().intValue();
   /**
    * This constant determines the max possible size of file(e.g. 100 MB / 25 megabytes ≈ 4 chunks of

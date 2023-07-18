@@ -76,9 +76,11 @@ public class SerializedBufferingStrategy implements BufferingStrategy {
     // Flushes buffer when either the buffer was completely filled or only a single stream was filled
     if (totalBufferSizeInBytes >= buffer.getMaxTotalBufferSizeInBytes()
         || allBuffers.size() >= buffer.getMaxConcurrentStreamsInBuffer()) {
+      LOGGER.info("Calling flushAllBuffers");
       flushAllBuffers();
       flushed = Optional.of(BufferFlushType.FLUSH_ALL);
     } else if (buffer.getByteCount() >= buffer.getMaxPerStreamBufferSizeInBytes()) {
+      LOGGER.info("Calling flushingSingleBuffer");
       flushSingleBuffer(stream, buffer);
       /*
        * Note: This branch is needed to indicate to the {@link DefaultDestStateLifeCycleManager} that an

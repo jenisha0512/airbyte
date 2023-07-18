@@ -167,10 +167,20 @@ public class BigQuerySource extends AbstractDbSource<StandardSQLTypeName, BigQue
                                                                   final String tableName,
                                                                   final SyncMode syncMode,
                                                                   final Optional<String> cursorField) {
+    // LOGGER.info("Queueing query for table: {}", tableName);
+    // return queryTable(database, String.format("SELECT %s FROM %s",
+    //     enquoteIdentifierList(columnNames, getQuoteString()),
+    //     getFullyQualifiedTableNameWithQuoting(schemaName, tableName, getQuoteString())),
+    //     tableName, schemaName);
     LOGGER.info("Queueing query for table: {}", tableName);
-    return queryTable(database, String.format("SELECT %s FROM %s",
-        enquoteIdentifierList(columnNames, getQuoteString()),
-        getFullyQualifiedTableNameWithQuoting(schemaName, tableName, getQuoteString())),
+    return queryTable(
+                        database, 
+                        String.format("SELECT %s FROM %s WHERE %s IS NOT NULL",
+        enquoteIdentifierList(
+          columnNames, getQuoteString()
+          ),
+        getFullyQualifiedTableNameWithQuoting(schemaName, tableName, getQuoteString()),
+        "pbx_boid"),
         tableName, schemaName);
   }
 

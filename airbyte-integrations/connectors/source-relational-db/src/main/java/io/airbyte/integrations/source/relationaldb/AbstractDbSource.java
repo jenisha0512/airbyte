@@ -366,6 +366,7 @@ public abstract class AbstractDbSource<DataType, Database extends AbstractDataba
     final AutoCloseableIterator<AirbyteMessage> iterator;
     // checks for which sync mode we're using based on the configured airbytestream
     // this is where the bifurcation between full refresh and incremental
+    LOGGER.info("Build....369::");
     if (airbyteStream.getSyncMode() == SyncMode.INCREMENTAL) {
       final String cursorField = IncrementalUtils.getCursorField(airbyteStream);
       final Optional<CursorInfo> cursorInfo = stateManager.getCursorInfo(pair);
@@ -418,7 +419,8 @@ public abstract class AbstractDbSource<DataType, Database extends AbstractDataba
         AirbyteStreamUtils.convertFromNameAndNamespace(pair.getName(), pair.getNamespace()),
         r -> {
           final long count = recordCount.incrementAndGet();
-          if (count % 10000 == 0) {
+          if (count % 1000 == 0) {
+            LOGGER.info("Build......", streamName, count);
             LOGGER.info("Reading stream {}. Records read: {}", streamName, count);
           }
           return r;
